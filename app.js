@@ -18,7 +18,7 @@ const postsRouter = require('./routes/posts');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/surf-shop', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/surf-shop-mapbox', {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -27,6 +27,7 @@ db.once('open', function() {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());
