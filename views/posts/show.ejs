@@ -1,36 +1,4 @@
-<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
-<style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      #map {
-				height: 200px;
-        width: 350px;
-			}
-
-		.marker {
-		  background-image: url('/images/mapbox-icon.png');
-		  background-size: cover;
-		  width: 50px;
-		  height: 50px;
-		  border-radius: 50%;
-		  cursor: pointer;
-		}
-
-    .mapboxgl-popup {
-      max-width: 200px;
-    }
-    
-    .mapboxgl-popup-content {
-      text-align: center;
-      font-family: 'Open Sans', sans-serif;
-    }
-</style>
-
+<% layout('layouts/post-show-layout') -%>  
 
 <h1><%= post.title %></h1>
 <div>Price:<%= post.price %></div>
@@ -53,26 +21,4 @@
 		</form>
 </div>
 
-<script>
-  var post = <%- JSON.stringify(post) %>;
-mapboxgl.accessToken = 'pk.eyJ1IjoicmpkZXYiLCJhIjoiY2t0ZXJqOXFvMDE0djJ2b2k0dnJ5NzNqMSJ9.3t2Wbj3mTGTfgkF54foX9Q';
 
-const map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/light-v10',
-  center: post.coordinates,
-  zoom: 3
-});
-
-  // create a HTML element for each feature
-const el = document.createElement('div');
-el.className = 'marker';
-
-  // make a marker for each feature and add to the map
-new mapboxgl.Marker(el)
-  .setLngLat(post.coordinates)
-  .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-    .setHTML(`<h3>${post.title}</h3><p>${post.location}</p>`))
-  .addTo(map);
-
-</script>
