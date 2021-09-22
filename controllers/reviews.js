@@ -20,7 +20,15 @@ module.exports = {
   },
 
   async reviewDelete(req,res,next){
-    
+    let post = await Post.findById(req.params.id);
+    post.reviews.pull(req.params.review_id);
+    post.save();
+    //await Post.findByIdAndUpdate(req.params.id, {
+    //$pull: {reviews:req.params.review_id}
+    //});
+    await Review.findByIdAndRemove(req.params.review_id);
+    req.session.success = 'Review Deleted!'
+    res.redirect(`/posts/${req.params.id}`);
   }
 
 }
