@@ -91,7 +91,7 @@ module.exports = {
     post.price = req.body.post.price;
 
     post.save();
-
+    req.session.success = 'Post updated succesfully!';
     res.redirect(`/posts/${post.id}`);  
   },
 
@@ -101,6 +101,7 @@ module.exports = {
       await cloudinary.v2.uploader.destroy(image.public_id);
     }
     await post.remove();
+    req.session.success = 'Post deleted correctly!' 
     res.redirect('/posts/');
   }
 
