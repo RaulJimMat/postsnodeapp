@@ -11,6 +11,8 @@ const session = require('express-session');
 const mongoose = require('mongoose')
 const methodOverride = require('method-override');
 const engine = require('ejs-mate');
+const seedPosts = require('./seeds')
+seedPosts();
 
 //require routes
 const indexRouter = require('./routes/index');
