@@ -7,6 +7,7 @@ async function seedPosts(){
     const post = {
       title: faker.lorem.word(),
       description: faker.lorem.text(),
+      coordinates: [-122.0842499, 37.4224763],
       author: {
         '_id' : '6148e4738d6eb40c8d6876cb',
         'username' : 'raul' 
