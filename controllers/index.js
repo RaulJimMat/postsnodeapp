@@ -8,6 +8,11 @@ module.exports = {
     const postsArr = await Post.find({});
     res.render('index', {postsArr, mapBoxToken, title: 'Surf Shop - Home' });
   },
+
+  getRegister(req,res,next){
+    res.render('register', { title: 'Register' });
+  },
+
   async postRegister(req, res, next) {
     const newUser = new User({
       username: req.body.username,
@@ -15,11 +20,21 @@ module.exports = {
       image: req.body.image
     });
 
-    await User.register(newUser, req.body.password);
-    res.redirect('/');
+    let user = await User.register(newUser, req.body.password);
+    req.login(user, function(err){
+      if(err){
+        return next(err);
+      }
+      req.session.success = `Welcome to Surf Shop, ${user.username}!`;
+      res.redirect('/');
+    });
   },
 
-  postLogin(req,res,next){
+  getLogin(req,res,next){
+    res.render('login', { title: 'Login' });
+  },
+
+ postLogin(req,res,next){
      passport.authenticate('local', { successRedirect: '/',
                                    failureRedirect: '/login' })(req,res,next);
   },

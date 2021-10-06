@@ -57,12 +57,12 @@ passport.deserializeUser(User.deserializeUser());
 
 //title middleware
 app.use(function(req,res,next){
-  req.user = {
-    //user1'_id' : '6148e4738d6eb40c8d6876cb',
-    //user2'_id' : '614b82d8b090bf271d5ee0a3',
-    '_id' : '61527454dd1610121a8a2ef9',
-    'username' : 'raul3'
-  }
+//  req.user = {
+//    //user1'_id' : '6148e4738d6eb40c8d6876cb',
+//    //user2'_id' : '614b82d8b090bf271d5ee0a3',
+//    '_id' : '61527454dd1610121a8a2ef9',
+//    'username' : 'raul3'
+//  }
   res.locals.currentUser = req.user;
   res.locals.title = 'Surf Shop';
   // set success flash message
