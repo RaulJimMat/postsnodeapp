@@ -16,10 +16,7 @@ async function seedPosts() {
 				type: 'Point',
 				coordinates: [cities[random1000].longitude, cities[random1000].latitude],
 			},
-			author: {
-		    '_id' : '6148e4738d6eb40c8d6876cb',
-		    'username' : 'raul'
-		  }
+			author: '6148e4738d6eb40c8d6876cb'
 		}
 		let post = new Post(postData);
 		post.properties.description = `<strong><a href="/posts/${post._id}">${title}</a></strong><p>${post.location}</p><p>${description.substring(0, 20)}...</p>`;
