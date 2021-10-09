@@ -32,6 +32,7 @@ module.exports = {
       limit: 1
     }).send();
     req.body.post.geometry = response.body.features[0].geometry;
+    req.body.post.author = req.user._id;
     let post = new Post(req.body.post);
 		post.properties.description = `<strong><a href="/posts/${post._id}">${post.title}</a></strong><p>${post.location}</p><p>${post.description.substring(0, 20)}...</p>`;
     await post.save();
@@ -53,12 +54,11 @@ module.exports = {
   },
 
   async postEdit(req,res,next){
-    let post = await Post.findById(req.params.id);
-    res.render('posts/edit', { post });
+    res.render('posts/edit');
   },
 
   async postUpdate(req,res,next){
-    let post = await Post.findById(req.params.id);
+    const { post } = res.locals;
     if(req.body.deleteImages && req.body.deleteImages.length > 0){
      let deleteImages = req.body.deleteImages;
       for(const filename of deleteImages){
@@ -99,7 +99,7 @@ module.exports = {
   },
 
   async postDelete(req,res,next){
-    let post = await Post.findById(req.params.id);
+    const { post } = res.locals;
     for(const image of post.images){
       await cloudinary.uploader.destroy(image.filename);
     }
