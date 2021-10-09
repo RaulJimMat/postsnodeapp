@@ -34,7 +34,7 @@
 		</form>
 </div>
 <% } %>
-<h2>Reviews</h2>
+<% if(currentUser) { %>
 <h3>Create a review</h3>
 <form action="/posts/<%= post.id %>/reviews" method="POST">
 	<div><textarea name="review[body]" ></textarea></div>
@@ -55,7 +55,9 @@
 	</fieldset>
 	<div><input type="submit"></div>
 </form>
-
+<% } else { %>
+	<h3><a href="/login?returnTo=true">Create a review</a></h3>
+<% } %>
 <h3>Reviews</h3>
 <% post.reviews.forEach(function(review){ %> 
 	<div>
@@ -63,7 +65,7 @@
 		<%= review.body %> <br>
 		Rating: <%= review.rating %>
 	</div>
-	<% if(review.author.equals(currentUser._id)) { %>
+	<% if(currentUser &&  review.author.equals(currentUser._id)) { %>
 	<div>
 		<button class="toggle-edit-form">Edit</button>
 		<form action="/posts/<%= post.id %>/reviews/<%= review.id %>?_method=PUT" method="POST" class="edit-review-form"> 
