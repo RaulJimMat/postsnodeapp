@@ -1,7 +1,7 @@
 const Review = require('../models/review');
 const User = require('../models/user');
 const Post = require('../models/post');
-const { cloudinary } = require('../cloudinary/index');
+const { cloudinary } = require('../cloudinary');
 
 const middleware = {
   asyncErrorHandler: (fn) =>
