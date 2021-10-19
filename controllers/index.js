@@ -92,7 +92,7 @@ module.exports = {
     res.redirect('/profile');
   },
 
-  getForgotPw(req, res next){
+  getForgotPw(req, res, next){
     res.render('users/forgot');
   },
 
@@ -101,7 +101,7 @@ module.exports = {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if(!user){
-      req.session.error('No account with that email.');
+      req.session.error = 'No account with that email.';
       return res.redirect('forgot-password');
     }
     user.resetPasswordToken = token;
@@ -109,7 +109,7 @@ module.exports = {
     await user.save();
     const msg = {
       to: email,
-      from: 'Surf Shop <rauljimmat@gmail.com>',
+      from: 'Surf Shop <sistemas@compugadget.com.mx>',
       subject: 'Surf Shop - Forgot Password / Reset',
       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
 			Please click on the following link, or copy and paste it into your browser to complete the process:
@@ -120,13 +120,53 @@ module.exports = {
 
     req.session.success = `An email has been sent to ${email} with further instructions.`;
     res.redirect('/forgot-password');
-  }
+  },
 
   async getReset(req, res, next){
-    
+    const { token } = req.params;
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    if(!user){
+      req.session.error = 'Password reset token is invalid or has expired.'
+      return res.redirect('/forgot-password');
+    }
+    res.render('users/reset', { token });
   },
 
   async putReset(req, res, next){
+    const { token } = req.params;
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+    if(!user){
+      req.session.error = 'Password reset token is invalid or has expired.'
+      return res.redirect('/forgot-password');
+    }
+    if( req.body.password === req.body.confirm ){
+      await user.setPassword(req.body.password);
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+      await user.save();
+      const login = util.promisify(req.login.bind(req));
+      await login(user);
+    } else {
+      req.session.error = 'Passwords do not match.';
+      return res.redirect(`/reset/${ token }`);
+    }
+    const msg = {
+    to: user.email,
+    from: 'Surf Shop Admin <sistemas@compugadget.com.mx>',
+    subject: 'Surf Shop - Password Changed',
+    text: `Hello,
+	  	This email is to confirm that the password for your account has just been changed.
+	  	If you did not make this change, please hit reply and notify us at once.`.replace(/	  	/g, '')
+    };
+    await sgMail.send(msg);
 
+    req.session.success = 'Password successfully updated!';
+    res.redirect('/');
   }
 }

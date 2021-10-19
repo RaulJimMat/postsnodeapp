@@ -11,7 +11,11 @@ const {
   getLogout,
   landingPage,
   getProfile,
-  updateProfile } = require('../controllers/index')
+  updateProfile,
+  getForgotPw,
+  putForgotPw,
+  getReset,
+  putReset } = require('../controllers/index')
 const { asyncErrorHandler, isLoggedIn, isValidPassword, changePassword } = require('../middleware');
 
 /* GET home page. */
@@ -45,24 +49,16 @@ router.put('/profile',
 );
 
 /* GET /forgot-pw */
-router.get('/forgot-pw', (req, res, next) => {
-  res.send('GET /forgot-pw');
-});
+router.get('/forgot-password', getForgotPw);
 
 /* PUT /forgot-pw */
-router.put('/forgot-pw', (req, res, next) => {
-  res.send('PUT /forgot-pw');
-});
+router.put('/forgot-password', asyncErrorHandler(putForgotPw));
 
 /* GET /reset-pw */
-router.get('/reset-pw/:token', (req, res, next) => {
-  res.send('GET /reset-pw/:token');
-});
+router.get('/reset/:token', asyncErrorHandler(getReset));
 
 /* PUT /reset-pw/:token */
-router.put('/reset-pw/:token', (req, res, next) => {
-  res.send('PUT /reset-pw/:token');
-});
+router.put('/reset/:token', asyncErrorHandler(putReset));
 
 
 module.exports = router;
