@@ -133,8 +133,8 @@ const middleware = {
       }
 
       if(price){
-        if(price.min) dbQueries.push({ price: { $gte: price.min } });
-        if(price.max) dbQueries.push({ price: { $lte: price.max } });
+        if(price.min) dbQueries.push({ price: { $gte: Number(price.min) } });
+        if(price.max) dbQueries.push({ price: { $lte: Number(price.max) } });
       }
 
       if(avgRating){
