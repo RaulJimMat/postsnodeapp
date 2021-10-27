@@ -132,7 +132,7 @@ const middleware = {
         dbQueries.push({ avgRating: { $in: avgRating } });
       }
 
-      res.locals.dbQuery = dbQueries.length ? { $and: { dbQueries } } : {};
+      res.locals.dbQuery = dbQueries.length ? { $and:  dbQueries  } : {};
     }
     res.locals.query = req.query;
     queryKeys.splice(queryKeys.indexOf('page'),1);
