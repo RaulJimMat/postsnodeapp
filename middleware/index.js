@@ -118,16 +118,12 @@ const middleware = {
           coordinates = response.body.features[0].geometry.coordinates;
         }
         let maxDistance = distance || 25;
-        maxDistance *= 1000; //Convert to kilometers
+        maxDistance /= 111.2; //Convert to kilometers
         dbQueries.push({
           geometry: {
-            $near: {
-              $geometry: {
-                type: 'Point',
-                coordinates
-              },
-              $maxDistance: maxDistance
-            }
+            $geoWithin: {
+              $center: [coordinates, maxDistance]
+            }    
           }
         });
       }
