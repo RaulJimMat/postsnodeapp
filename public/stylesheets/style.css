@@ -1,3 +1,10 @@
+.logo{
+  color: #fff;
+}
+.logo:hover{
+  color: #fff;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;

@@ -19,7 +19,10 @@ async function seedPosts() {
 			},
 			avgRating: random5,
 			price: random1000,
-			author: '6148e4738d6eb40c8d6876cb'
+			author: '6148e4738d6eb40c8d6876cb',
+			images: [
+				{ url: 'https://res.cloudinary.com/rulopk/image/upload/v1631913375/Compugadget/LOGO_Mesa_de_trabajo_1_tzskii.png' }
+			]
 		}
 		let post = new Post(postData);
 		post.properties.description = `<strong><a href="/posts/${post._id}">${title}</a></strong><p>${post.location}</p><p>${description.substring(0, 20)}...</p>`;
